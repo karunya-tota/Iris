@@ -1,3 +1,4 @@
+from google_maps_api import *
 from flask import Flask
 from flask import request
 from flask import redirect
@@ -5,9 +6,6 @@ from flask import render_template
 from twilio.twiml.messaging_response import MessagingResponse
 
 app = Flask(__name__)
-
-def make_request(text):
-    return "Test Success"
 
 @app.route("/", methods=['GET', 'POST'])
 def send_response():
@@ -31,4 +29,5 @@ def send_message():
     return result
 
 if __name__ == "__main__":
+    # make_request('Illini Union', 'Live Latitude')
     app.run(debug=True)
