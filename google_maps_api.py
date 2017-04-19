@@ -53,7 +53,7 @@ def retrieve_request_url(start, end):
     url = API_ENDPOINT + "origin=" + start + "&" + "destination=" + end + "&" + "key=" + API_KEY
     return url
 
-def make_request(text):
+def get_directions(text):
     '''
     Makes a Google Maps API call given a text message
     :param text: message in the form ' Directions from A to B'

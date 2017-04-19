@@ -1,7 +1,8 @@
 from google_maps_api import *
+from weather_api import *
+from recipes_api import *
 from flask import Flask
 from flask import request
-from flask import redirect
 from flask import render_template
 from twilio.twiml.messaging_response import MessagingResponse
 
@@ -14,7 +15,12 @@ def send_response():
     :return: string of response sent to user
     '''
     text = str(request.values.get("Body", None))
-    response_body = make_request(text)
+    if 'Directions' in text:
+        response_body = get_directions(text)
+    if 'Weather' in text:
+        response_body = get_weather(text)
+    if 'Recipe' in text:
+        response_body = get_recipe(text)
     response = MessagingResponse().message(response_body)
     result = str(response)
     return result
@@ -29,5 +35,4 @@ def send_message():
     return result
 
 if __name__ == "__main__":
-    # make_request('Illini Union', 'Live Latitude')
     app.run(debug=True)
