@@ -6,9 +6,7 @@ API_KEY = "AIzaSyAEdm8KvM2X7aaa3B70uPYYHdV72cwqykM"
 
 prefix = "Directions from "
 separator = " to "
-
 initial_text = "Directions:"
-invalid_syntax_message = "Invalid Request. Check syntax and try again!"
 
 def process_text(text):
     '''
@@ -61,7 +59,7 @@ def get_directions(text):
     '''
     start, end = process_text(text)
     if start is None or end is None:
-        return invalid_syntax_message
+        return None
 
     url = retrieve_request_url(start, end)
     # url = 'https://maps.googleapis.com/maps/api/directions/json?origin=Illini+Union&destination=Live+Latitude&key=AIzaSyAEdm8KvM2X7aaa3B70uPYYHdV72cwqykM'
@@ -69,8 +67,8 @@ def get_directions(text):
     response = requests.get(url)
     json = response.json()
 
-    if json['routes'] == []:
-        return invalid_syntax_message
+    if "routes" not in json or json["routes"] == []:
+        return None
 
     routes = json["routes"][0]
     legs = routes["legs"][0]

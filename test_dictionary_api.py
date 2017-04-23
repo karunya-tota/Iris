@@ -11,13 +11,13 @@ class TestDictionaryAPI(unittest.TestCase):
         '''
         text1 = "Define programming studio"
         command, word = process_text(text1)
-        self.assertEqual(command, invalid_syntax_message)
-        self.assertEqual(word, invalid_syntax_message)
+        self.assertEqual(command, None)
+        self.assertEqual(word, None)
 
         text2 = 'Pronounce final project'
         command, word = process_text(text2)
-        self.assertEqual(command, invalid_syntax_message)
-        self.assertEqual(word, invalid_syntax_message)
+        self.assertEqual(command, None)
+        self.assertEqual(word, None)
 
     def test_valid_number_of_words(self):
         '''
@@ -39,7 +39,7 @@ class TestDictionaryAPI(unittest.TestCase):
         '''
         text = 'Definetion aficionado'
         result = get_definition(text)
-        self.assertEqual(result, invalid_syntax_message)
+        self.assertEqual(result, None)
 
     def test_invalid_word(self):
         '''
@@ -47,7 +47,7 @@ class TestDictionaryAPI(unittest.TestCase):
         '''
         text = 'Define Aviato'
         result = get_definition(text)
-        self.assertEqual(result, invalid_syntax_message)
+        self.assertEqual(result, None)
 
     def test_define_valid_word(self):
         '''

@@ -1,12 +1,17 @@
 from google_maps_api import *
 from weather_api import *
 from recipes_api import *
+from dictionary_api import *
+from help_menu import *
 from flask import Flask
 from flask import request
 from flask import render_template
 from twilio.twiml.messaging_response import MessagingResponse
 
 app = Flask(__name__)
+
+invalid_syntax_message = "Invalid Request.\n" \
+                         "Type \"help me\" or try again!"
 
 @app.route("/", methods=['GET', 'POST'])
 def send_response():
@@ -15,12 +20,24 @@ def send_response():
     :return: string of response sent to user
     '''
     text = str(request.values.get("Body", None))
-    if 'Directions' in text:
+    response_body = None
+
+    if text.lower() == "help me":
+        response_body = get_help_menu()
+    elif text[0].isdigit():
+        response_body = get_syntax(text)
+    elif 'Directions' in text:
         response_body = get_directions(text)
-    if 'Weather' in text:
+    elif 'Weather' in text:
         response_body = get_weather(text)
-    if 'Recipe' in text:
+    elif 'Recipe' in text:
         response_body = get_recipe(text)
+    elif "Define" in text or "Pronounce" in text:
+        response_body = get_definition(text)
+
+    if response_body is None:
+        response_body = invalid_syntax_message
+
     response = MessagingResponse().message(response_body)
     result = str(response)
     return result

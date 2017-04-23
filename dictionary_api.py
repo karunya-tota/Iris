@@ -3,9 +3,7 @@ import requests
 APP_ID = '86a84c22'
 APP_KEY = 'd310496f693eabcc2e909bdede2a217e'
 
-invalid_syntax_message = "Invalid Request. Check syntax and try again!"
 language = "en"
-
 valid_commands = ["pronounce", "define"]
 
 def process_text(text):
@@ -17,7 +15,7 @@ def process_text(text):
     text = text.split()
 
     if len(text) != 2:
-        return invalid_syntax_message, invalid_syntax_message
+        return None, None
 
     command = text[0].lower()
     word = text[1].lower()
@@ -75,16 +73,16 @@ def get_definition(text):
     '''
     command, word = process_text(text)
 
-    if command is invalid_syntax_message or word is invalid_syntax_message:
-        return invalid_syntax_message
+    if command is None or word is None:
+        return None
     if command not in valid_commands:
-        return invalid_syntax_message
+        return None
 
     url = 'https://od-api.oxforddictionaries.com:443/api/v1/entries/' + language + '/' + word
 
     response = requests.get(url, headers={'app_id': APP_ID, 'app_key': APP_KEY})
     if response.status_code == 404 or response.status_code == 500:
-        return invalid_syntax_message
+        return None
 
     json = response.json()
 
@@ -93,4 +91,4 @@ def get_definition(text):
     elif command == "define":
         return process_definition(word, json)
     else:
-        return invalid_syntax_message
+        return None
