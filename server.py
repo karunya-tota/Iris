@@ -2,6 +2,7 @@ from google_maps_api import *
 from weather_api import *
 from recipes_api import *
 from dictionary_api import *
+from chuck_norris_api import *
 from help_menu import *
 from flask import Flask
 from flask import request
@@ -34,6 +35,8 @@ def send_response():
         response_body = get_recipe(text)
     elif "Define" in text or "Pronounce" in text:
         response_body = get_definition(text)
+    elif "Jokes" in text or "Be funny" in text or "Chuck Norris" in text:
+        response_body = get_jokes()
 
     if response_body is None:
         response_body = invalid_syntax_message

@@ -6,6 +6,7 @@ def get_help_menu():
                "3. Recipe",
                "4. Definition",
                "5. Pronunciation",
+               "6. Jokes",
                "Enter one of the numbers for more info"]
     result = "\n".join(options)
     return result
@@ -27,4 +28,7 @@ def get_syntax(text):
     elif text == "5":
         result = "To get the pronunciation of salmon, enter:\n" \
                  "Pronounce salmon"
+    elif text == "6":
+        result = "To get Chuck Norris jokes, enter:\n" \
+                 "Jokes or Be funny or Chuck Norris"
     return result
