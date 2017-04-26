@@ -1,5 +1,6 @@
 import unittest
-from google_maps_api import *
+from apis.google_maps_api import *
+
 
 class TestGoogleMapsAPI(unittest.TestCase):
     """

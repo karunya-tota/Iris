@@ -1,15 +1,15 @@
-from google_maps_api import *
-from weather_api import *
-from news_api import *
-from recipes_api import *
-from dictionary_api import *
-from chuck_norris_api import *
-from help_menu import *
+from apis.chuck_norris_api import *
 from flask import Flask
-from flask import request
 from flask import render_template
+from flask import request
 from flask_sqlalchemy import SQLAlchemy
+from apis.google_maps_api import *
+from apis.news_api import *
+from apis.recipes_api import *
 from twilio.twiml.messaging_response import MessagingResponse
+from apis.dictionary_api import *
+from help_menu import *
+from apis.weather_api import *
 
 app = Flask(__name__)
 

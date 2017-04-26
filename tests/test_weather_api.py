@@ -1,5 +1,6 @@
 import unittest
-from weather_api import *
+from apis.weather_api import *
+
 
 class TestWeatherAPI(unittest.TestCase):
     """

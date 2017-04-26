@@ -1,5 +1,6 @@
 import unittest
-from dictionary_api import *
+from apis.dictionary_api import *
+
 
 class TestDictionaryAPI(unittest.TestCase):
     """

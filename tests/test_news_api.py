@@ -1,5 +1,6 @@
 import unittest
-from news_api import *
+from apis.news_api import *
+
 
 class TestNewsAPI(unittest.TestCase):
     """

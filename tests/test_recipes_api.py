@@ -1,5 +1,6 @@
 import unittest
-from recipes_api import *
+from apis.recipes_api import *
+
 
 class TestRecipeAPI(unittest.TestCase):
     """
