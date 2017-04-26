@@ -3,10 +3,11 @@ def get_help_menu():
                "We support the following APIs:",
                "1. Google Maps",
                "2. Weather",
-               "3. Recipe",
-               "4. Definition",
-               "5. Pronunciation",
-               "6. Jokes",
+               "3. News",
+               "4. Recipe",
+               "5. Definition",
+               "6. Pronunciation",
+               "7. Jokes",
                "Enter one of the numbers for more info"]
     result = "\n".join(options)
     return result
@@ -20,15 +21,18 @@ def get_syntax(text):
         result = "To check the weather in Chicago, enter:\n" \
                  "Weather in Chicago"
     elif text == "3":
+        result = "To check the news from The New York Times, enter:\n" \
+                 "News from The New York Times"
+    elif text == "4":
         result = "To get the recipe for Chocolate Cake, enter:\n" \
                  "Recipe for Chocolate Cake"
-    elif text == "4":
+    elif text == "5":
         result = "To get the definition of aficionado, enter:\n" \
                  "Define aficionado"
-    elif text == "5":
+    elif text == "6":
         result = "To get the pronunciation of salmon, enter:\n" \
                  "Pronounce salmon"
-    elif text == "6":
+    elif text == "7":
         result = "To get Chuck Norris jokes, enter:\n" \
                  "Jokes or Be funny or Chuck Norris"
     return result
