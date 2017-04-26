@@ -1,5 +1,6 @@
 from google_maps_api import *
 from weather_api import *
+from news_api import *
 from recipes_api import *
 from dictionary_api import *
 from chuck_norris_api import *
@@ -31,6 +32,8 @@ def send_response():
         response_body = get_directions(text)
     elif 'Weather' in text:
         response_body = get_weather(text)
+    elif 'News' in text:
+        response_body = get_news(text)
     elif 'Recipe' in text:
         response_body = get_recipe(text)
     elif "Define" in text or "Pronounce" in text:
