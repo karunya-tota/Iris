@@ -14,8 +14,8 @@ class TestRecipeAPI(unittest.TestCase):
         self.assertIsNone(recipe_name)
 
         text2 = 'Tiramisu\'s Recipe'
-        location = find_recipe_name(text)
-        self.assertIsNone(location)
+        recipe_name = find_recipe_name(text)
+        self.assertIsNone(recipe_name)
 
     def test_invalid_text(self):
         '''
