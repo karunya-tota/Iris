@@ -123,6 +123,7 @@ def send_response():
 
     if response_body is None:
         response_body = invalid_syntax_message
+        not_query_flag = 1
 
     response = MessagingResponse().message(response_body)
 
