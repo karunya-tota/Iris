@@ -20,7 +20,7 @@ def get_user_choice(text):
     valid_choices = ["trivia",
                      "year",
                      "date",
-                     "month"]
+                     "math"]
 
     choice = words[1].lower()
     if choice in valid_choices:
