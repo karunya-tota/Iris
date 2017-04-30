@@ -7,9 +7,10 @@ from apis.chuck_norris_api import *
 from apis.dictionary_api import *
 from apis.google_maps_api import *
 from apis.news_api import *
+from apis.numbers_api import *
 from apis.recipes_api import *
-from apis.weather_api import *
 from apis.trivia_api import *
+from apis.weather_api import *
 from help_menu import *
 
 app = Flask(__name__)
@@ -114,8 +115,10 @@ def send_response():
         response_body = get_definition(text)
     elif "Jokes" in text or "Be funny" in text or "Chuck Norris" in text:
         response_body = get_jokes()
+    elif "Numbers" in text:
+        response_body = get_numbers(text)
     elif "Trivia" in text:
-        response_body = get_trivia()
+        response_body = get_trivia(text)
     elif "Popular" in text:
         response_body = get_popular_queries()
         not_query_flag = 1
