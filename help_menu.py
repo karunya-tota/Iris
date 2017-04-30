@@ -8,7 +8,8 @@ def get_help_menu():
                "5. Definition",
                "6. Pronunciation",
                "7. Jokes",
-               "8. Popular Queries",
+               "8. Trivia",
+               "9. Popular Queries",
                "Enter one of the numbers for more info"]
     result = "\n".join(options)
     return result
@@ -37,6 +38,9 @@ def get_syntax(text):
         result = "To get Chuck Norris jokes, enter:\n" \
                  "Jokes or Be funny or Chuck Norris"
     elif text == "8":
+        result = "To get a trivia question, enter:\n" \
+                 "Trivia"
+    elif text == "9":
         result = "To get Popular queries, enter:\n" \
                  "Popular queries"
     return result

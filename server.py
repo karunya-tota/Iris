@@ -1,15 +1,16 @@
-from apis.chuck_norris_api import *
 from flask import Flask
 from flask import render_template
 from flask import request
 from flask_sqlalchemy import SQLAlchemy
+from twilio.twiml.messaging_response import MessagingResponse
+from apis.chuck_norris_api import *
+from apis.dictionary_api import *
 from apis.google_maps_api import *
 from apis.news_api import *
 from apis.recipes_api import *
-from twilio.twiml.messaging_response import MessagingResponse
-from apis.dictionary_api import *
-from help_menu import *
 from apis.weather_api import *
+from apis.trivia_api import *
+from help_menu import *
 
 app = Flask(__name__)
 
@@ -50,15 +51,11 @@ def create_or_update_query(text):
     if len(queries) > 0:
         query = queries[0]
         query.increment()
-        print(query.text)
-        print(query.count)
         db.session.commit()
 
     else:
         query = Queries(text)
         db.session.add(query)
-        print(query.text)
-        print(query.count)
         db.session.commit()
 
     return None
@@ -117,6 +114,8 @@ def send_response():
         response_body = get_definition(text)
     elif "Jokes" in text or "Be funny" in text or "Chuck Norris" in text:
         response_body = get_jokes()
+    elif "Trivia" in text:
+        response_body = get_trivia()
     elif "Popular" in text:
         response_body = get_popular_queries()
         not_query_flag = 1
