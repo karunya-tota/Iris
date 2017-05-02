@@ -1,6 +1,6 @@
 def get_help_menu():
     options = ["Welcome to Iris!",
-               "We support the following APIs:",
+               "We support the following Functionalities:",
                "1. Google Maps",
                "2. Weather",
                "3. News",

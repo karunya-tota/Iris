@@ -24,7 +24,7 @@ db = SQLAlchemy(app)
 
 class Queries(db.Model):
     '''
-    Database model for a Comment
+    Database model for a Query
     '''
     __tablename__ = 'queries_table'
     id = db.Column(db.Integer, primary_key='True')
