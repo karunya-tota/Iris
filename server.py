@@ -12,6 +12,7 @@ from apis.recipes_api import *
 from apis.trivia_api import *
 from apis.weather_api import *
 from help_menu import *
+from spell_check import *
 
 app = Flask(__name__)
 
@@ -97,6 +98,10 @@ def send_response():
     response_body = None
     not_query_flag = 0
 
+    if check_spelling(text) == False:
+        return return_response('Invalid Request. Perhaps, incorrect spelling, please try again!')
+        not_query_flag = 1
+
     if text.lower() == "help me":
         response_body = get_help_menu()
         not_query_flag = 1
@@ -127,14 +132,20 @@ def send_response():
         response_body = invalid_syntax_message
         not_query_flag = 1
 
-    response = MessagingResponse().message(response_body)
 
     if not_query_flag == 0 :
         create_or_update_query(text)
 
+    return return_response(response_body)
+
+
+def return_response(text):
+    response = MessagingResponse().message(text)
+
     result = str(response)
 
     return result
+
 
 @app.route("/send_message", methods=['GET'])
 def send_message():
