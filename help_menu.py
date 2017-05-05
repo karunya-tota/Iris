@@ -25,7 +25,8 @@ def get_syntax(text):
                  "Weather in Chicago"
     elif text == "3":
         result = "To check the news from The New York Times, enter:\n" \
-                 "News from The New York Times"
+                 "News from The New York Times\n" \
+                 "Sources: ABC News, Al Jazeera, ARS Technica , Associated Press, BBC News, BBC Sports, Bild , Bloomberg, Breitbart News, Business Insider, Business Insider UK, Buzzfeed, CNBC News, CNN News, Daily Mail Newsm Der-Tagesspiegel, Die Zeit,En gadget, Entertainment Weekly, ESPN, Financial Times, Focus, Football Italian, Fortune, FourFour, Fox Sports, Google News, Gruenderszene, Hacker News, Handelsblatt, IGN, Independent, Mashable, Metro, Mirror, MTV News, MTV News UK, National Geographic, New Scientist, Newsweek, New York Magazine, NFL News, Polygon, Recode, Reddit, Reuters, Spiegel Online, T3N, Talksport, Techcrunch, Techradar, The Economist, The Guardian AU, The Guardian UK, The Hindu, The Huffington Post, The Lad Bible, The New York Times, The Next Web, The Sport Bible, The Telegraph, The Times of India, The Verge, The Wall Street Journal, The Washington Post, The Time, Usa Today, Wired.de "
     elif text == "4":
         result = "To get the recipe for Chocolate Cake, enter:\n" \
                  "Recipe for Chocolate Cake"
@@ -46,5 +47,5 @@ def get_syntax(text):
                  "Trivia"
     elif text == "10":
         result = "To get Popular queries, enter:\n" \
-                 "Popular queries"
+                 "Popular queries or Populuar queries in <category>"
     return result

@@ -31,9 +31,11 @@ class Queries(db.Model):
     id = db.Column(db.Integer, primary_key='True')
     text = db.Column(db.String)
     count = db.Column(db.Integer)
+    category = db.Column(db.String)
 
-    def __init__(self, text):
+    def __init__(self, text, category):
         self.text = text
+        self.category = category
         self.count = 1
 
     def increment(self):
@@ -42,7 +44,7 @@ class Queries(db.Model):
 # Creates both Queries table in the database
 db.create_all()
 
-def create_or_update_query(text):
+def create_or_update_query(text, category):
     '''
     Creates a new query instance in the database or updates existing one
     :param text: User's requested query
@@ -56,7 +58,7 @@ def create_or_update_query(text):
         db.session.commit()
 
     else:
-        query = Queries(text)
+        query = Queries(text, category)
         db.session.add(query)
         db.session.commit()
 
@@ -88,6 +90,32 @@ def get_popular_queries():
 
     return response
 
+def get_popular_queries_in_category(text):
+    '''
+    Retrieves the popular queries by cateogry
+    :param text: SMS request input
+    :return: response for SMS request Popular queries in <category>
+    '''
+    category = text[19:]
+    queries = Queries.query.filter_by(category=category).all()
+
+    queries = sorted(queries, key=lambda query: query.count, reverse=True)
+
+    result = []
+    result.append('Popular Queries ' + '(' + category + ')')
+    num = 1
+
+    for query in queries:
+        if num > 5:
+            break
+        query_line = str(num) + ". " + query.text + ", hits: " + str(query.count)
+        result.append(query_line)
+        num += 1
+
+    response = "\n".join(result)
+
+    return response
+
 @app.route("/", methods=['GET', 'POST'])
 def send_response():
     '''
@@ -95,12 +123,9 @@ def send_response():
     :return: string of response sent to user
     '''
     text = str(request.values.get("Body", None))
+    category = None
     response_body = None
     not_query_flag = 0
-
-    if check_spelling(text) == False:
-        return return_response('Invalid Request. Perhaps, incorrect spelling, please try again!')
-        not_query_flag = 1
 
     if text.lower() == "help me":
         response_body = get_help_menu()
@@ -109,35 +134,61 @@ def send_response():
         response_body = get_syntax(text)
         not_query_flag = 1
     elif 'Directions' in text:
+        category = 'Directions'
         response_body = get_directions(text)
     elif 'Weather' in text:
-        response_body = get_weather(text)
+        response_body, not_query_flag = spell_check(text)
+        category = 'Weather'
+        if response_body is not None:
+            response_body = get_weather(text)
     elif 'News' in text:
+        category = 'News'
         response_body = get_news(text)
     elif 'Recipe' in text:
-        response_body = get_recipe(text)
+        response_body, not_query_flag = spell_check(text)
+        category = 'Recipe'
+        if response_body is not None:
+            response_body = get_recipe(text)
     elif "Define" in text or "Pronounce" in text:
-        response_body = get_definition(text)
+        response_body, not_query_flag = spell_check(text)
+        category = 'Define'
+        if response_body is not None:
+            response_body = get_definition(text)
     elif "Jokes" in text or "Be funny" in text or "Chuck Norris" in text:
+        category = 'Jokes'
         response_body = get_jokes()
     elif "Numbers" in text:
+        category = 'Numbers'
         response_body = get_numbers(text)
     elif "Trivia" in text:
+        category = 'Trivia'
         response_body = get_trivia(text)
-    elif "Popular" in text:
+    elif "Popular queries" == text:
         response_body = get_popular_queries()
+        not_query_flag = 1
+    elif "Popular queries in" in text:
+        response_body = get_popular_queries_in_category(text)
         not_query_flag = 1
 
     if response_body is None:
         response_body = invalid_syntax_message
         not_query_flag = 1
 
-
     if not_query_flag == 0 :
-        create_or_update_query(text)
+        create_or_update_query(text, category)
 
     return return_response(response_body)
 
+def spell_check(text):
+    if check_spelling(text) == False:
+        suggested_response = offer_suggestions(text)
+        not_query_flag = 1
+        if suggested_response != '':
+            return return_response('Invalid Request. Perhaps, you meant \"' + suggested_response + '\" , or please try again!'), not_query_flag
+        else:
+            return return_response('Invalid Request. Please try again!'), not_query_flag
+    else:
+        return None
 
 def return_response(text):
     response = MessagingResponse().message(text)
@@ -157,4 +208,6 @@ def send_message():
     return result
 
 if __name__ == "__main__":
+    print(get_popular_queries())
+    print(get_popular_queries_in_category('Popular queries in Weather'))
     app.run(debug=True)

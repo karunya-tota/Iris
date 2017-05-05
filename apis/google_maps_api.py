@@ -82,5 +82,12 @@ def get_directions(text):
         soup = BeautifulSoup(html, "html.parser")
         line = soup.get_text()
         result.append(line)
+
+    last_line = result[len(result)-1]
+    last_line = last_line.split('Ave', 1)
+    result.pop()
+    result.append(last_line[0])
+    result.append(last_line[1])
+
     text = "\n".join(result)
     return text
