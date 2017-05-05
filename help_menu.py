@@ -11,6 +11,7 @@ def get_help_menu():
                "8. Numbers",
                "9. Trivia",
                "10. Popular Queries",
+               "11. Launch or Catch Planes",
                "Enter one of the numbers for more info"]
     result = "\n".join(options)
     return result
@@ -47,5 +48,11 @@ def get_syntax(text):
                  "Trivia"
     elif text == "10":
         result = "To get Popular queries, enter:\n" \
-                 "Popular queries or Populuar queries in <category>"
+                 "Popular queries or Popular queries in <category>"
+    elif text == "11":
+        result = "To launch a plane, enter:\n" \
+                 "Launch <your name> <your country>\n" \
+                 "To catch a plane, enter:\n" \
+                 "Catch\n" \
+
     return result

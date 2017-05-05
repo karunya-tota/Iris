@@ -8,6 +8,7 @@ from apis.dictionary_api import *
 from apis.google_maps_api import *
 from apis.news_api import *
 from apis.numbers_api import *
+from apis.planes_api import *
 from apis.recipes_api import *
 from apis.trivia_api import *
 from apis.weather_api import *
@@ -19,8 +20,15 @@ app = Flask(__name__)
 invalid_syntax_message = "Invalid Request.\n" \
                          "Type \"help me\" or try again!"
 
+# Loading the list of countries from a file into a dictionary
+global ccountries_filename
+countries_filename = "https://raw.githubusercontent.com/kaytota/Iris/master/countries.txt"
+global countries_dict
+countries_dict = {}
+
 # Database Configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///queries.sqlite3'
+global db
 db = SQLAlchemy(app)
 
 class Queries(db.Model):
@@ -40,6 +48,19 @@ class Queries(db.Model):
 
     def increment(self):
         self.count += 1
+
+class Planes(db.Model):
+    '''
+    Database model for a Plane
+    '''
+    __tablename__ = 'planes_table'
+    id = db.Column(db.Integer, primary_key='True')
+    user = db.Column(db.String)
+    country = db.Column(db.String)
+
+    def __init__(self, user, country):
+        self.user = user
+        self.country = country
 
 # Creates both Queries table in the database
 db.create_all()
@@ -169,6 +190,12 @@ def send_response():
     elif "Popular queries in" in text:
         response_body = get_popular_queries_in_category(text)
         not_query_flag = 1
+    elif "Launch" in text:
+        response_body = launch_plane(text, countries_dict)
+        not_query_flag = 1
+    elif "Catch" in text:
+        response_body = catch_plane(text)
+        not_query_flag = 1
 
     if response_body is None:
         response_body = invalid_syntax_message
@@ -192,11 +219,9 @@ def spell_check(text):
 
 def return_response(text):
     response = MessagingResponse().message(text)
-
     result = str(response)
 
     return result
-
 
 @app.route("/send_message", methods=['GET'])
 def send_message():
@@ -207,7 +232,21 @@ def send_message():
     result = render_template('message.html')
     return result
 
+def load_countries():
+    '''
+    Loads all the countries from the github repo into a dictionary
+    '''
+    global countries_filename
+    r = requests.get(countries_filename)
+
+    lines = r.text
+    lines = lines.split("\n")
+
+    global countries_dict
+    for line in lines:
+        line_lower = line.lower()
+        countries_dict[line_lower] = line
+
 if __name__ == "__main__":
-    print(get_popular_queries())
-    print(get_popular_queries_in_category('Popular queries in Weather'))
+    load_countries()
     app.run(debug=True)
